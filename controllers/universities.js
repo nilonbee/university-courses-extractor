@@ -1,20 +1,32 @@
-const universities = require("../universities.json");
-const scrapeUniversities = require("../scrollers/uk/universities-uk");
+const scrapeUniversities = require("../scrollers/hotCourses/partOne");
 const { StatusCodes } = require("http-status-codes");
+const fs = require("fs").promises;
 
 const getUniversities = async (req, res) => {
   try {
-    await scrapeUniversities();
+    // Wait for the scraping process to complete
+    await scrapeUniversities(req.body.state);
+
+    // Read the universities.json file after scraping is done
+    const universitiesData = await fs.readFile(
+      "universities/universities.json",
+      "utf-8"
+    );
+    const universities = JSON.parse(universitiesData);
+
     res.status(StatusCodes.OK).json({
       message: "SUCCESS",
       payload: {
         data: universities,
       },
     });
-    console.log(universities);
   } catch (error) {
-    // throw new CustomApiError(error, StatusCodes.BAD_REQUEST);
-    console.log(error);
+    // Handle any errors that might occur during scraping or reading the file
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "An error occurred while fetching universities data.",
+      error: error.message,
+    });
   }
 };
 

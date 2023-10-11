@@ -1,0 +1,30 @@
+# Ignore the .env file (for storing environment variables)
+.env
+
+# Ignore the /node_modules directory (for dependencies)
+node_modules
+
+# Ignore any log files or build artifacts
+logs/
+build/
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore npm debug log
+npm-debug.log
+
+# Ignore yarn error log
+yarn-error.log
+
+# Ignore operating system files
+Thumbs.db
+ehthumbs.db
+
+# Ignore system-specific temp files
+*.swp
+*~
